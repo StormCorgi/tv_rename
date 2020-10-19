@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat $@ | ./bin/trim_arib_gaiji | ./bin/trim_subtitle | ./bin/trim_timedata
