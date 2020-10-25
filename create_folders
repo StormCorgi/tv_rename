@@ -1,6 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
-TARGETDIR="/mnt/nasn/VIDEO/TV/TS"
+# loading config.ini
+eval $(
+  sed -En '
+    /^\['filepath']/,/^$/{
+      s/^[ \t]*([^:]+)[ \t]*:[ \t]*(.+)[ \t]*$/\1="\2"/p
+    }
+  ' < config.ini
+)
 
 # Direcroty creation
 ls $TARGETDIR/*.ts | ./get_title | sort -u | xargs mkdir 2> /dev/null
