@@ -1,0 +1,13 @@
+#!/bin/sh
+
+TARGETDIR="/mnt/nasn/VIDEO/TV/TS"
+
+# Direcroty creation
+ls $TARGETDIR/*.ts | ./get_title | sort -u | xargs mkdir 2> /dev/null
+
+# move *.ts into Directory
+FOLDER_NAMES=`find $TARGETDIR -type d | cut -d"/" -f 7-` 
+for folder in $FOLDER_NAMES
+do
+    find $TARGETDIR -maxdepth 1 -type f -name "*$folder*.ts" |  xargs -I{} mv {} $TARGETDIR/$folder/
+done
