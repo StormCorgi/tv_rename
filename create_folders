@@ -10,11 +10,11 @@ eval $(
 )
 
 # Direcroty creation
-ls $TARGETDIR/*.ts | ./get_title | sort -u | xargs mkdir 2> /dev/null
+find $TARGETDIR -maxdepth 1 -type f | gawk -F/ '{print $NF}' | ./get_title | sort -u | xargs --no-run-if-empty -I{} mkdir $TARGETDIR/{} 2> /dev/null
 
 # move *.ts into Directory
-FOLDER_NAMES=`find $TARGETDIR -type d | cut -d"/" -f 7-` 
+FOLDER_NAMES=`find $TARGETDIR -type d | gawk -F/ '{print $NF}'`
 for folder in $FOLDER_NAMES
 do
-    find $TARGETDIR -maxdepth 1 -type f -name "*$folder*.ts" |  xargs -I{} mv {} $TARGETDIR/$folder/
+    find $TARGETDIR -maxdepth 1 -type f -name "*$folder*.ts" | xargs --no-run-if-empty -I{} mv {} $TARGETDIR/$folder/
 done
